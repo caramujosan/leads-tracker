@@ -21,7 +21,13 @@ window.onload = function() {
     });
 
     function addToListItem() {
-        listItems += "<li>" + myLeads[myLeads.length - 1] + "</li>";
+        listItems += `
+            <li>
+                <a href=${myLeads[myLeads.length - 1]} target="_blank">
+                    ${myLeads[myLeads.length - 1]}
+                </a>
+            </li>
+        `;
     }
 
     function renderLeads() {
