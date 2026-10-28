@@ -26,12 +26,23 @@ input {
     margin-bottom: 4px;
 }
 
+
+#btn-container{
+    display: flex;
+    justify-content: space-between;
+}
+
 button {
     background: #3083a7;
     color: white;
     padding: 10px 20px;
     border: none;
     font-weight: bold;
+}
+
+#delete-btn {
+    background: #aa1a2d;
+    padding: 5px 10px;
 }
 
 #ul-el {

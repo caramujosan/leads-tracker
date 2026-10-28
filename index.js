@@ -2,6 +2,7 @@ window.onload = function() {
     
     let myLeads = [];
     const inputBtn = document.getElementById('input-btn');
+    const deleteBtn = document.getElementById('delete-btn');
     const inputEl = document.getElementById('input-el');
     const ulEl = document.getElementById('ul-el');
     let listItems = "";
@@ -20,14 +21,27 @@ window.onload = function() {
         renderLeads();  
     });
 
+
+    deleteBtn.addEventListener('click', function() {
+        removeAllLeads();
+    });
+
+    
     function addToListItem() {
+        const lastIndex = myLeads.length - 1;
         listItems += `
             <li>
-                <a href=${myLeads[myLeads.length - 1]} target="_blank">
-                    ${myLeads[myLeads.length - 1]}
+                <a href=${myLeads[lastIndex]} target="_blank">
+                    ${myLeads[lastIndex]}
                 </a>
             </li>
         `;
+    }
+
+    function removeAllLeads() {
+        myLeads = [];
+        listItems = "";
+        renderLeads();
     }
 
     function renderLeads() {
