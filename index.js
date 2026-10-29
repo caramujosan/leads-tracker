@@ -37,7 +37,7 @@ window.onload = function() {
     // ####################################################################################
 
     tabBtn.addEventListener('click', function() {
-        // Usa a API do Chrome para pegar a URL da aba ativa
+        // Use the Chrome Tabs API to get the current active tab's URL
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             const activeUrl = tabs[0].url;
             myLeads.push(activeUrl);
