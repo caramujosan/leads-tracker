@@ -8,6 +8,14 @@ window.onload = function() {
     let listItems = "";
 
 
+    const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+
+    if (leadsFromLocalStorage) {
+        myLeads = leadsFromLocalStorage;
+        render(myLeads); // Render the leads from local storage when the page loads
+    }
+
+
     // ####################################################################################
     // ADD LEADS FEATURE
     // ####################################################################################
