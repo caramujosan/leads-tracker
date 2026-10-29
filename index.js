@@ -7,26 +7,30 @@ window.onload = function() {
     const ulEl = document.getElementById('ul-el');
     let listItems = "";
 
+
+    // ####################################################################################
+    // ADD LEADS FEATURE
+    // ####################################################################################
+
     // Add event listener to the button to save input value
     inputBtn.addEventListener('click', function() {
         const inputValue = inputEl.value;
         
         if (inputValue.trim() !== "") { // Check if the input is not empty
-            myLeads.push(inputValue); 
+
+            myLeads.push(inputValue);
+
             inputEl.value = ""; // Clean the input after clicking
             
-            addToListItem(); // Create list item for the new lead
+            addToListItem();
+
+            localStorage.setItem("myLeads", JSON.stringify(myLeads));
         }
         
         renderLeads();  
     });
 
 
-    deleteBtn.addEventListener('click', function() {
-        removeAllLeads();
-    });
-
-    
     function addToListItem() {
         const lastIndex = myLeads.length - 1;
         listItems += `
@@ -36,15 +40,31 @@ window.onload = function() {
                 </a>
             </li>
         `;
-    }
+    };
 
+
+    // ####################################################################################
+    // DELETE LEADS FEATURE
+    // ####################################################################################
+
+    deleteBtn.addEventListener('click', function() {
+        removeAllLeads();
+        renderLeads();
+    });
+
+    
     function removeAllLeads() {
         myLeads = [];
         listItems = "";
-        renderLeads();
-    }
+        localStorage.clear();
+    };
+
+
+    // ####################################################################################
+    // RENDER TO HTML
+    // ####################################################################################
 
     function renderLeads() {
         ulEl.innerHTML = listItems; 
-    }
+    };
 }
