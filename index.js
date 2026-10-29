@@ -23,7 +23,9 @@ window.onload = function() {
     inputBtn.addEventListener('click', function() {
         const inputValue = inputEl.value;
         
-        if (inputValue.trim() !== "") { 
+        if (checkInputValue(inputValue)) {
+            alert("This lead already exists!");
+        } else if (inputValue.trim() !== "") { 
             myLeads.push(inputValue);
             inputEl.value = ""; 
             localStorage.setItem("myLeads", JSON.stringify(myLeads));
@@ -40,9 +42,14 @@ window.onload = function() {
         // Use the Chrome Tabs API to get the current active tab's URL
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             const activeUrl = tabs[0].url;
-            myLeads.push(activeUrl);
-            localStorage.setItem("myLeads", JSON.stringify(myLeads));
-            render(myLeads);
+
+            if (checkInputValue(activeUrl)) {
+                alert("This lead already exists!");
+            } else {
+                myLeads.push(activeUrl);
+                localStorage.setItem("myLeads", JSON.stringify(myLeads));
+                render(myLeads);
+            }
         });
     });
 
@@ -61,6 +68,38 @@ window.onload = function() {
         render(myLeads);
     };
 
+
+    // ####################################################################################
+    // CHECK INPUT VALUE FUNCTION
+    // ####################################################################################
+
+    // ####################################################################################
+    // CHECK INPUT VALUE FUNCTION (Com normalização de barra final)
+    // ####################################################################################
+    function checkInputValue(value) {
+
+        // Regex Validation for URL (basic check)
+        const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+        if (!urlPattern.test(value)) {
+            alert("Please enter a valid URL.");
+            return true; // Inválido
+        }
+
+        // Normalize the value to ensure consistent comparison
+        // If the value ends with a slash, remove it for comparison
+        let normalizedValue = value.endsWith('/') ? value.slice(0, -1) : value;
+
+        // Normalize all leads in myLeads for comparison
+        const normalizedLeads = myLeads.map(lead => lead.endsWith('/') ? lead.slice(0, -1) : lead);
+
+        if (normalizedLeads.includes(normalizedValue)) {
+            alert("This lead already exists!");
+            return true; // Already exists
+        }
+
+        return false;
+    }
 
     // ####################################################################################
     // RENDER TO HTML
