@@ -2,10 +2,10 @@ window.onload = function() {
     
     let myLeads = [];
     const inputBtn = document.getElementById('input-btn');
+    const tabBtn = document.getElementById('tab-btn'); // Novo botão
     const deleteBtn = document.getElementById('delete-btn');
     const inputEl = document.getElementById('input-el');
     const ulEl = document.getElementById('ul-el');
-    let listItems = "";
 
 
     const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
@@ -20,35 +20,31 @@ window.onload = function() {
     // ADD LEADS FEATURE
     // ####################################################################################
 
-    // Add event listener to the button to save input value
     inputBtn.addEventListener('click', function() {
         const inputValue = inputEl.value;
         
-        if (inputValue.trim() !== "") { // Check if the input is not empty
-
+        if (inputValue.trim() !== "") { 
             myLeads.push(inputValue);
-
-            inputEl.value = ""; // Clean the input after clicking
-            
-            addToListItem();
-
+            inputEl.value = ""; 
             localStorage.setItem("myLeads", JSON.stringify(myLeads));
+            render(myLeads);
         }
-        
-        renderLeads();  
     });
 
 
-    function addToListItem() {
-        const lastIndex = myLeads.length - 1;
-        listItems += `
-            <li>
-                <a href=${myLeads[lastIndex]} target="_blank">
-                    ${myLeads[lastIndex]}
-                </a>
-            </li>
-        `;
-    };
+    // ####################################################################################
+    // SAVE TAB FEATURE
+    // ####################################################################################
+
+    tabBtn.addEventListener('click', function() {
+        // Usa a API do Chrome para pegar a URL da aba ativa
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            const activeUrl = tabs[0].url;
+            myLeads.push(activeUrl);
+            localStorage.setItem("myLeads", JSON.stringify(myLeads));
+            render(myLeads);
+        });
+    });
 
 
     // ####################################################################################
@@ -57,14 +53,12 @@ window.onload = function() {
 
     deleteBtn.addEventListener('click', function() {
         removeAllLeads();
-        renderLeads();
     });
-
     
     function removeAllLeads() {
         myLeads = [];
-        listItems = "";
         localStorage.clear();
+        render(myLeads);
     };
 
 
@@ -72,7 +66,17 @@ window.onload = function() {
     // RENDER TO HTML
     // ####################################################################################
 
-    function renderLeads() {
+    function render(leads) {
+        let listItems = "";
+        for (let i = 0; i < leads.length; i++) {
+            listItems += `
+                <li>
+                    <a href="${leads[i]}" target="_blank">
+                        ${leads[i]}
+                    </a>
+                </li>
+            `;
+        }
         ulEl.innerHTML = listItems; 
     };
 }
