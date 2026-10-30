@@ -63,7 +63,7 @@ window.onload = function() {
     // DELETE LEADS FEATURE
     // ####################################################################################
 
-    deleteBtn.addEventListener('click', function() {
+    deleteBtn.addEventListener('dblclick', function() {
         removeAllLeads();
     });
     
@@ -80,7 +80,7 @@ window.onload = function() {
 
     function checkInputValue(value) {
 
-        let urlToTest = value;
+        let urlToTest = value.trim(); // Remove leading and trailing whitespace
 
         // In case the user didn't include the protocol, prepend "https://" to the URL for validation
         if (!urlToTest.startsWith("http://") && !urlToTest.startsWith("https://")) {
