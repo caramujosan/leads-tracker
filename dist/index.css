@@ -70,24 +70,45 @@ button:active {
 }
 
 
-li {
+li.lead-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: white;
-    padding: 10px 12px;
+    padding: 8px 12px;
     margin-bottom: 6px;
     border-radius: 6px;
-    border-left: 4px solid #5f9341; /* Detalhe verde elegante */
+    border-left: 4px solid #5f9341;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    word-break: break-all;
 }
 
-/* Saved Links */
-li a {
+li.lead-item a {
     text-decoration: none;
     color: #3083a7;
     font-size: 13px;
     font-weight: 500;
+    word-break: break-all;
+    margin-right: 8px;
 }
 
-li a:hover {
+li.lead-item a:hover {
     text-decoration: underline;
+}
+
+
+.delete-single-btn {
+    background: transparent;
+    color: #aa1a2d;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 4px;
+    flex: 0 0 auto;
+    transition: transform 0.1s ease;
+}
+
+.delete-single-btn:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
 }
