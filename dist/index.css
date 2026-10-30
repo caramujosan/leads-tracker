@@ -112,3 +112,14 @@ li.lead-item a:hover {
     transform: scale(1.2);
     opacity: 0.8;
 }
+
+
+/* Specific styles for the search input */
+#search-el {
+    border-color: #888888;
+    margin-bottom: 12px;
+}
+
+#search-el:focus {
+    border-color: #3083a7;
+}

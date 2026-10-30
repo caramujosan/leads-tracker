@@ -12,11 +12,29 @@ window.onload = function() {
     const deleteBtn = document.getElementById('delete-btn');
     const inputEl = document.getElementById('input-el');
     const ulEl = document.getElementById('ul-el');
+    const searchEl = document.getElementById('search-el');
 
     // If there are leads in storage, render them on page load
     if (myLeads.length > 0) {
         render(myLeads, ulEl);
     }
+
+
+    // ####################################################################################
+    // SEARCH FEATURE
+    // ####################################################################################
+    searchEl.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        
+        // Filter the leads based on the search term
+        const filteredLeads = myLeads.filter(lead => 
+            lead.toLowerCase().includes(searchTerm)
+        );
+        
+        // Render the filtered leads
+        render(filteredLeads, ulEl);
+    });
+
 
     // ####################################################################################
     // ADD LEADS FEATURE

@@ -6,9 +6,10 @@ export function render(leads, ulEl) {
                 <a href="${leads[i]}" target="_blank">
                     ${leads[i]}
                 </a>
-                <button class="delete-single-btn" data-index="${i}" title="Delete this lead">×</button>
+                <p class="lead-title">${Document.title}</p>
+                <button class="delete-single-btn" data-lead="${leads[i]}" title="Delete this lead">×</button>
             </li>
         `;
     }
     ulEl.innerHTML = listItems; 
-};
+}
