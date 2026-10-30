@@ -49,7 +49,7 @@ window.onload = function() {
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             const activeUrl = tabs[0].url;
 
-            const validatedUrl = checkInputValue(activeUrl);
+            const validatedUrl = checkInputValue(activeUrl, myLeads);
 
             if (!validatedUrl) {
                 return; // If the URL is invalid or exists, do not add it
