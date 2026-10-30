@@ -23,14 +23,18 @@ window.onload = function() {
     inputBtn.addEventListener('click', function() {
         const inputValue = inputEl.value;
         
-        if (checkInputValue(inputValue)) {
-            alert("This lead already exists!");
-        } else if (inputValue.trim() !== "") { 
-            myLeads.push(inputValue);
-            inputEl.value = ""; 
-            localStorage.setItem("myLeads", JSON.stringify(myLeads));
-            render(myLeads);
+        // Check if the input value is empty
+        const validatedUrl = checkInputValue(inputValue);
+        
+        if (!validatedUrl) {
+            return; // If the input is invalid or already exists, exit the function
         }
+
+        // If the input is valid and doesn't exist, add it to the leads
+        myLeads.push(validatedUrl);
+        inputEl.value = ""; 
+        localStorage.setItem("myLeads", JSON.stringify(myLeads));
+        render(myLeads);
     });
 
 
@@ -39,17 +43,18 @@ window.onload = function() {
     // ####################################################################################
 
     tabBtn.addEventListener('click', function() {
-        // Use the Chrome Tabs API to get the current active tab's URL
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             const activeUrl = tabs[0].url;
 
-            if (checkInputValue(activeUrl)) {
-                alert("This lead already exists!");
-            } else {
-                myLeads.push(activeUrl);
-                localStorage.setItem("myLeads", JSON.stringify(myLeads));
-                render(myLeads);
+            const validatedUrl = checkInputValue(activeUrl);
+
+            if (!validatedUrl) {
+                return; // If the URL is invalid or exists, do not add it
             }
+
+            myLeads.push(validatedUrl);
+            localStorage.setItem("myLeads", JSON.stringify(myLeads));
+            render(myLeads);
         });
     });
 
@@ -73,32 +78,44 @@ window.onload = function() {
     // CHECK INPUT VALUE FUNCTION
     // ####################################################################################
 
-    // ####################################################################################
-    // CHECK INPUT VALUE FUNCTION (Com normalização de barra final)
-    // ####################################################################################
     function checkInputValue(value) {
 
-        // Regex Validation for URL (basic check)
-        const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+        let urlToTest = value;
 
-        if (!urlPattern.test(value)) {
-            alert("Please enter a valid URL.");
-            return true; // Inválido
+        // In case the user didn't include the protocol, prepend "https://" to the URL for validation
+        if (!urlToTest.startsWith("http://") && !urlToTest.startsWith("https://")) {
+            urlToTest = "https://" + urlToTest;
         }
 
-        // Normalize the value to ensure consistent comparison
-        // If the value ends with a slash, remove it for comparison
-        let normalizedValue = value.endsWith('/') ? value.slice(0, -1) : value;
+        try {
+            // Try to create a new URL object. If it fails, the URL is invalid.
+            const parsedUrl = new URL(urlToTest);
+            
+            // Garantee that the hostname contains at least one dot, which is a basic check for a valid domain
+            if (!parsedUrl.hostname.includes('.')) {
+                alert("Please enter a valid URL.");
+                return;
+            }
 
-        // Normalize all leads in myLeads for comparison
+        } catch (error) {
+            alert("Please enter a valid URL.");
+            return;
+        }
+
+        // Normalize the value and existing leads to ensure consistent comparison
+        if (urlToTest.endsWith('/')) {
+            urlToTest = urlToTest.slice(0, -1);
+        };
+    
+
         const normalizedLeads = myLeads.map(lead => lead.endsWith('/') ? lead.slice(0, -1) : lead);
 
-        if (normalizedLeads.includes(normalizedValue)) {
+        if (normalizedLeads.includes(urlToTest)) {
             alert("This lead already exists!");
-            return true; // Already exists
+            return;
         }
 
-        return false;
+        return urlToTest;
     }
 
     // ####################################################################################
