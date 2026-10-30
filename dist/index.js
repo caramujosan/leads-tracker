@@ -60,7 +60,7 @@ window.onload = function() {
 
 
     // ####################################################################################
-    // DELETE LEADS FEATURE
+    // DELETE ALL LEADS and DELETE SINGLE LEAD FEATURES
     // ####################################################################################
 
     deleteBtn.addEventListener('dblclick', function() {
@@ -72,6 +72,23 @@ window.onload = function() {
         localStorage.clear();
         render(myLeads);
     };
+
+    ulEl.addEventListener('click', function(e) {
+        removeSingleLead(e);
+    });
+
+    function removeSingleLead(e) {
+        if (e.target.classList.contains('delete-single-btn')) {
+            const index = e.target.getAttribute('data-index');
+            
+            // Remove the lead from the array using splice
+            myLeads.splice(index, 1);
+            
+            // Update localStorage and re-render the list
+            localStorage.setItem("myLeads", JSON.stringify(myLeads));
+            render(myLeads);
+        }
+    }
 
 
     // ####################################################################################
@@ -123,16 +140,17 @@ window.onload = function() {
     // ####################################################################################
 
     function render(leads) {
-        let listItems = "";
-        for (let i = 0; i < leads.length; i++) {
-            listItems += `
-                <li>
-                    <a href="${leads[i]}" target="_blank">
-                        ${leads[i]}
-                    </a>
-                </li>
-            `;
-        }
-        ulEl.innerHTML = listItems; 
+            let listItems = "";
+            for (let i = 0; i < leads.length; i++) {
+                listItems += `
+                    <li class="lead-item">
+                        <a href="${leads[i]}" target="_blank">
+                            ${leads[i]}
+                        </a>
+                        <button class="delete-single-btn" data-index="${i}" title="Delete this lead">×</button>
+                    </li>
+                `;
+            }
+            ulEl.innerHTML = listItems; 
     };
 }
