@@ -1,4 +1,7 @@
 .direnv
 .envrc
 flake.lock
+node_modules/
+.DS_Store
+*.zip
 
