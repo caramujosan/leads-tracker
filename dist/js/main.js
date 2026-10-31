@@ -26,12 +26,11 @@ window.onload = function() {
     searchEl.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase().trim();
         
-        // Filter the leads based on the search term
         const filteredLeads = myLeads.filter(lead => 
-            lead.toLowerCase().includes(searchTerm)
+            lead.url.toLowerCase().includes(searchTerm) || 
+            lead.title.toLowerCase().includes(searchTerm)
         );
         
-        // Render the filtered leads
         render(filteredLeads, ulEl);
     });
 
@@ -48,11 +47,17 @@ window.onload = function() {
             return; 
         }
 
-        myLeads.push(validatedUrl);
+        const newLead = {
+            url: validatedUrl,
+            title: validatedUrl
+        };
+
+        myLeads.push(newLead);
         
         // Save the updated leads to localStorage and re-render the list
         if (saveLeadsToStorage(myLeads)) {
             inputEl.value = ""; 
+            searchEl.value = "";
             render(myLeads, ulEl);
         } else {
             // If saving to storage fails, remove the last added lead to maintain consistency
@@ -68,15 +73,22 @@ window.onload = function() {
     tabBtn.addEventListener('click', function() {
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             const activeUrl = tabs[0].url;
+            const tabTitle = tabs[0].title || activeUrl;
             const validatedUrl = checkInputValue(activeUrl, myLeads);
 
             if (!validatedUrl) {
                 return; 
             }
 
-            myLeads.push(validatedUrl);
+            const newLead = {
+                url: validatedUrl,
+                title: tabTitle
+            };
+
+            myLeads.push(newLead);
             
             if (saveLeadsToStorage(myLeads)) {
+                searchEl.value = "";
                 render(myLeads, ulEl);
             } else {
                 myLeads.pop();
@@ -92,18 +104,28 @@ window.onload = function() {
     deleteBtn.addEventListener('dblclick', function() {
         myLeads = [];
         clearStorage();
+        searchEl.value = "";
         render(myLeads, ulEl);
     });
 
     ulEl.addEventListener('click', function(e) { 
         if (e.target.classList.contains('delete-single-btn')) {
-            const index = e.target.getAttribute('data-index');
+            const urlToDelete = e.target.getAttribute('data-url');
+
+            const index = myLeads.findIndex(lead => lead.url === urlToDelete);
             
-            myLeads.splice(index, 1);
-            
-            if (saveLeadsToStorage(myLeads)) {
-                render(myLeads, ulEl);
+            if (index > -1) {
+                myLeads.splice(index, 1);
+                
+                if (saveLeadsToStorage(myLeads)) {
+                    const searchTerm = searchEl.value.toLowerCase().trim();
+                    const filteredLeads = myLeads.filter(lead => 
+                        lead.url.toLowerCase().includes(searchTerm) || 
+                        lead.title.toLowerCase().includes(searchTerm)
+                    );
+                    render(filteredLeads, ulEl);
+                }
             }
         }
     });
-}
+};

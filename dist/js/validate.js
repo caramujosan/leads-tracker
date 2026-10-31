@@ -28,7 +28,11 @@ export function checkInputValue(value, myLeads) {
     };
 
 
-    const normalizedLeads = myLeads.map(lead => lead.endsWith('/') ? lead.slice(0, -1) : lead);
+    const normalizedLeads = myLeads.map(lead => {
+        const leadUrl = lead.url;
+        console.log("Normalizing lead URL:", leadUrl);
+        return leadUrl.endsWith('/') ? leadUrl.slice(0, -1) : leadUrl;
+    });
 
     if (normalizedLeads.includes(urlToTest)) {
         alert("This lead already exists!");

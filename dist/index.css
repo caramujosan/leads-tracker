@@ -32,7 +32,6 @@ input:focus {
     margin-bottom: 12px;
 }
 
-
 button {
     flex: 1;
     background: #3083a7;
@@ -55,11 +54,6 @@ button:active {
 }
 
 
-#delete-btn {
-    background: #aa1a2d;
-    flex: 0.6; /* A little smaller to give it a distinct look */
-}
-
 /* LLeads List */
 #ul-el {
     list-style-type: none;
@@ -80,22 +74,41 @@ li.lead-item {
     border-radius: 6px;
     border-left: 4px solid #5f9341;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    gap: 10px; /* Space between text and button */
 }
 
-li.lead-item a {
+/* Internal card container for aligning title and link */
+.lead-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1; /* Ocupy all available space, push the button to the right */
+}
+
+.lead-item a.lead-title {
     text-decoration: none;
     color: #3083a7;
     font-size: 13px;
-    font-weight: 500;
-    word-break: break-all;
-    margin-right: 8px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-li.lead-item a:hover {
+.lead-item a.lead-title:hover {
     text-decoration: underline;
 }
 
+.lead-url {
+    font-size: 12px;
+    color: #555555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
+
+/* Garantees that delete button stays fixed e do not stretch */
 .delete-single-btn {
     background: transparent;
     color: #aa1a2d;
@@ -104,13 +117,19 @@ li.lead-item a:hover {
     font-weight: bold;
     cursor: pointer;
     padding: 0 4px;
-    flex: 0 0 auto;
+    flex: 0 0 auto; /* Prevents button from shrinking or expanding */
     transition: transform 0.1s ease;
 }
 
 .delete-single-btn:hover {
     transform: scale(1.2);
     opacity: 0.8;
+}
+
+#delete-all-instruction {
+    /* align-self: self-end;
+    align-items: end; */
+    justify-self: right;
 }
 
 
