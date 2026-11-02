@@ -8,6 +8,10 @@
 
 ---
 
+![leads-tracker gif](assets/leads-tracker.gif)
+
+---
+
 ## 🚀 Features
 
 - **Instant Tab Saving:** Captures the URL and official title of the active tab using the `chrome.tabs` API.
