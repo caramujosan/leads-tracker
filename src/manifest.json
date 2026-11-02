@@ -8,6 +8,6 @@
     ],
     "action": {
         "default_popup": "index.html",
-        "default_icon": "128_address_book.png"
+        "default_icon": "assets/128_address_book.png"
     }
 }

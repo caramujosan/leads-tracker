@@ -8,7 +8,7 @@
 
 ---
 
-![leads-tracker gif](assets/leads-tracker.gif)
+![leads-tracker gif](src/assets/leads-tracker.gif)
 
 ---
 
@@ -29,7 +29,7 @@ The project was built following **Single Responsibility Principle (SRP)** and fe
 - `js/main.js`: The extension orchestrator, handling event listeners and the application lifecycle.
 - `js/validation.js`: A module containing pure functions for URL sanitization and validation.
 - `js/render.js`: The UI layer responsible for the dynamic construction of DOM elements.
-- `js/storage.js`: An abstraction layer for `localStorage` persistence, including error handling. 
+- `js/storage.js`: An abstraction layer for `localStorage` persistence, including error handling.
 
 ---
 
