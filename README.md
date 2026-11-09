@@ -8,7 +8,7 @@
 
 ---
 
-![leads-tracker gif](src/assets/leads-tracker.gif)
+![leads-tracker gif](leads-tracker.gif)
 
 ---
 
