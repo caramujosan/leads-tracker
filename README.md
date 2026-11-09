@@ -2,13 +2,11 @@
 
 > A modular Google Chrome extension designed to save, organize, and filter URLs and active tabs in real-time, with secure data persistence.
 
-![Chrome Extension Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
-![JavaScript ES6+](https://img.shields.io/badge/ES%20Modules-Enabled-yellow)
-![Vitest](https://img.shields.io/badge/Tested%20with-Vitest-green)
+![Chrome Extension Manifest V3](https://img.shields.io/badge/Manifest-V3-blue) ![JavaScript ES6+](https://img.shields.io/badge/ES%20Modules-Enabled-yellow) ![Vitest](https://img.shields.io/badge/Tested%20with-Vitest-green) ![Vitest](https://img.shields.io/badge/Type%20annotated-TypeScript-darkblue)
 
 ---
 
-![leads-tracker gif](leads-tracker.gif)
+![leads-tracker gif](./leads-tracker.gif)
 
 ---
 
